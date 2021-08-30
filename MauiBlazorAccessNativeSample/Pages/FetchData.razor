@@ -1,6 +1,7 @@
 ﻿@page "/fetchdata"
 
 @using MauiBlazorAccessNativeSample.Data
+@using Microsoft.Maui.Essentials
 @inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
@@ -13,6 +14,7 @@
 }
 else
 {
+	<h1>Forecast for @location?.Longitude</h1>
 	<table class="table">
 		<thead>
 			<tr>
@@ -38,9 +40,11 @@ else
 
 @code {
 	private WeatherForecast[] forecasts;
+	private Location location;
 
 	protected override async Task OnInitializedAsync()
 	{
 		forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+		location = await Geolocation.GetLocationAsync();
 	}
 }
